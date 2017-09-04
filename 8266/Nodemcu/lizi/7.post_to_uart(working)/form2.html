@@ -1,26 +1,26 @@
 ﻿ <html>
 
       <head>
-        <title> 数据库 </title>
+        <title> 测试主页 </title>
+
       </head>
 
       <body>
         <h1> 您的测试结果：</h1>
-        <form  method="POST">
+		 </br>
+            心率/体温</br>
+	    <iframe name="content_frame"  width="200" height="50" src="print.txt" frameborder=0></iframe></br>
+		
+	   <button onclick="location.reload();">UPDATE</button> 
+	   
+	   <form  method="POST">
           <p>
             </br>
             输入设备测试指令:</br>
-            <textarea name="comments" rows="2" cols="70"></textarea></br>
-            </br>
-            提交</br>
+            <textarea name="comments" rows="1" cols="25"></textarea></br>
             <input type="submit" /></br>
-
-            </br>
-            返回值</br>
+           
           </p>
         </form>
-
-        <iframe name="content_frame"  width="500" height="100" src="print.txt" frameborder=0></iframe></br>
-
       </body>
     </html>

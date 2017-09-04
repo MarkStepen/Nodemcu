@@ -1,6 +1,6 @@
     SSID = "Mik"
     password = "12345678"
-
+    uart.setup(0,9600,8,0,1,0)
     pin = 4
     gpio.mode(pin, gpio.OUTPUT)
     wifi.setmode(wifi.STATION)
@@ -16,31 +16,40 @@
     end)
 
     file.open("print.txt","w+")
-    file.write('Command:')
+    file.write('  ')
     file.close()
 
     srv=net.createServer(net.TCP,30)
     srv:listen(80,function(conn)
     -- save node.output to print.txt
-       function s_output(str)
+    uart.on("data", function(data)
           if(conn~=nil) then
                file.open("print.txt","a+")
-               file.write(str)
+               file.write(data)
            file.close()
            end
-       end
-       node.output(s_output, 1)
+       end, 0)
+       
+  --     function s_output(str)
+  --        if(conn~=nil) then
+  --            file.open("print.txt","a+")
+  --           file.write(str)
+  --       file.close()
+  --     end
+  --    end
+  --   node.output(s_output, 1)
 
        conn:on("receive", function(conn,payload)
        -- parse Header
             local _, _, vars = string.find(payload, "[A-Z]+ /(.+) HTTP");
             local _, _, method = string.find(payload, "([A-Z]+) /.* HTTP");
             local filename = nil
-
-           if (method =="GET") then
-               if     (vars == nil) then filename = "form2.html"
-               elseif (vars ~= nil) then filename = vars
+            
+            if (method =="GET") then
+               if     (vars == nil) then filename = "form2.html";         
+               elseif (vars ~= nil) then filename = vars;
                end
+               
            elseif (method =="POST") then
                local _, _, comments =
                string.find(payload,"comments=(.*)")
@@ -86,7 +95,7 @@
            -- initialize print.txt
                if (filename == "print.txt") then
                    file.open("print.txt","w+")
-                   file.write('Command:')
+                   file.write('  ')
                    file.close()
                end
            end

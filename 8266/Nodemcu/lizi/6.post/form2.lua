@@ -1,4 +1,4 @@
-    SSID = "Mik"
+﻿    SSID = "Mik"
     password = "12345678"
 
     pin = 4
